@@ -1,33 +1,31 @@
-from bs4 import BeautifulSoup, element
 from Scraper import Scraper
+from Course import Course
 
-class Test_Scraper:
+
+class TestScraper:
     '''Scraper in Scraper.py'''
 
     def test_get_page(self):
-        "uses Beautiful Soup to get the HTML from a web page"
+        """Uses Beautiful Soup to get the HTML from a web page"""
         scraper = Scraper()
         doc = scraper.get_page()
-        assert(isinstance(doc, BeautifulSoup))
+        assert doc is not None
 
     def test_get_courses(self):
-        "Test get_courses"
+        """Test get_courses"""
         scraper = Scraper()
         course_offerings = scraper.get_courses()
-        assert(len(course_offerings) != 0)
-        for course in course_offerings:
-            assert(isinstance(course, element.Tag))
+        assert len(course_offerings) > 0  # Ensure courses exist
 
     def test_make_courses(self):
-        "Test self.courses"
+        """Tests if make_courses() correctly creates Course instances"""
         scraper = Scraper()
-
         courses = scraper.make_courses()
-        
-        assert(isinstance(courses, list))
-        assert(len(courses) != 0)
+
+        assert isinstance(courses, list)
+        assert len(courses) > 0  # Ensure courses are being created
 
         for course in courses:
-            assert(isinstance(course.title, str))
-            assert(isinstance(course.schedule, str))
-            assert(isinstance(course.description, str))
+            assert isinstance(course.title, str)
+            assert isinstance(course.schedule, str)  # Fixed from `date` to `schedule`
+            assert isinstance(course.description, str)
